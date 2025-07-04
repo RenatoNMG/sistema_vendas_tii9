@@ -1,36 +1,67 @@
 <?php
 
-require_once './Entidade.php';
-require_once './Categoria.php';
-require_once './FormaPagamento.php';
-require_once './Usuario.php';
-require_once './Produto.php';
+header('Content-Type: text/plain; charset=utf-8');
 
-header('content-Type: text/plain');
+require_once __DIR__ . '/Entidade.php';
+require_once __DIR__ . '/Usuario.php'; 
+require_once __DIR__ . '/Categoria.php';
+require_once __DIR__ . '/FormaPagamento.php';
+require_once __DIR__ . '/Produto.php';
+require_once __DIR__ . '/ItemPedido.php';
+require_once __DIR__ . '/Pedido.php';
 
-echo "=======================================\n";
-echo "==== INICIANDO OS TESTES DE MODELS ====\n";
-echo "=======================================\n\n";
+echo "===============================================\n";
+echo "INICIANDO TESTE DE INSTANCIAÇÃO DE MODELS\n";
+echo "===============================================\n\n";
 
-//1 - CATEGORIA EM FORMA DE PAGAMENTO
-echo "1. Criando categoria em forma de pagamento \n\n";
-$categoriaEletro = new Categoria(1,'Eletrnicos', 'Dispositivos que encaixa na tomada',true);
-$formaPagamento = new FormaPagamento(1,'Carta de Credito','pagamento via cartão',true);
-print_r($categoriaEletro);
-print_r($formaPagamento);
-echo("\n");
+// Etapa preliminar: Criar um usuário admin para os registros de auditoria
+echo "0. Criando Usuário Administrador para auditoria...\n";
+$dataAtual = date('Y-m-d H:i:s');
+$adminUser = new Usuario(
+    1, 'Admin Sistema', 'admin', 'senha_admin', 'admin@sistema.com', 
+    null, null, true, true, null, $dataAtual, $dataAtual, null
+);
+print_r($adminUser);
+echo "\n";
 
-// 2 - CRIANDO USUÀRIO (CLIENTE)
 
-echo "1. Criando Usuário (Cliente)\n\n";
-$cliente = new Usuario(10, 'joão da silva', 'joao.silva', 'super_senha', 'joao@mail.com','1199889988','132,123,123,12', false, true);
+// 1. Criando entidades simples
+echo "1. Criando Categoria e Forma de Pagamento...\n";
+$categoriaEletronicos = new Categoria(
+    1, 'Eletrônicos', 'Dispositivos eletrônicos e acessórios', true, 
+    $dataAtual, $dataAtual, $adminUser
+);
+$formaPagamentoCartao = new FormaPagamento(
+    1, 'Cartão de Crédito', 'Pagamento via cartão de crédito', true, 
+    $dataAtual, $dataAtual, $adminUser
+);
+
+print_r($categoriaEletronicos);
+print_r($formaPagamentoCartao);
+echo "\n";
+
+// 2. Criando um usuário (que será nosso cliente)
+echo "2. Criando um Usuário (Cliente)...\n";
+$cliente = new Usuario(
+    10, 'João da Silva Souza', 'joao.silva', 'senha_super_segura', 'joao@exemplo.com',
+    '11999998888', '123.456.789-00', false, true, null,
+    $dataAtual, $dataAtual, $adminUser
+);
+
 print_r($cliente);
-echo("\n");
+echo "\n";
 
-// 3 PRODUTOS QUE PERTENCEM A UMA CATEGORIA
+// 3. Criando produtos que pertencem a uma categoria
+echo "3. Criando Produtos...\n";
+$produtoNotebook = new Produto(
+    101, 'Notebook Gamer', 'Notebook de alta performance para jogos', 7500.50, $categoriaEletronicos, true,
+    $dataAtual, $dataAtual, $adminUser
+);
+$produtoMouse = new Produto(
+    102, 'Mouse Sem Fio', 'Mouse óptico sem fio com 6 botões', 150.75, $categoriaEletronicos, true,
+    $dataAtual, $dataAtual, $adminUser
+);
 
-$produto1 = new Produto(1, 'Relógio', 'relogio digital', 100.50, $categoriaEletro,true);
-$produto2 = new Produto(1, 'Celular', 'Novo Modelo', 1000.50, $categoriaEletro,true);
-print_r($produto1);
-print_r($produto2);
-?>
+print_r($produtoNotebook);
+print_r($produtoMouse);
+echo "\n";

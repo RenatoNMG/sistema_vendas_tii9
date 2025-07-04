@@ -28,8 +28,15 @@ echo "\n";
 // 2. Criando um usuário (que será nosso cliente)
 echo "2. Criando um Usuário (Cliente)...\n";
 $cliente = new Usuario(
-    10, 'João da Silva', 'joao.silva', 'senha_super_segura', 'joao@exemplo.com',
-    '11999998888', '123.456.789-00', false, true
+    10,
+    'João da Silva',
+    'joao.silva',
+    'senha_super_segura',
+    'joao@exemplo.com',
+    '11999998888',
+    '123.456.789-00',
+    false,
+    true
 );
 
 print_r($cliente);
@@ -38,10 +45,20 @@ echo "\n";
 // 3. Criando produtos que pertencem a uma categoria
 echo "3. Criando Produtos...\n";
 $produtoNotebook = new Produto(
-    101, 'Notebook Gamer', 'Notebook de alta performance para jogos', 7500.50, $categoriaEletronicos, true
+    101,
+    'Notebook Gamer',
+    'Notebook de alta performance para jogos',
+    7500.50,
+    $categoriaEletronicos,
+    true
 );
 $produtoMouse = new Produto(
-    102, 'Mouse Sem Fio', 'Mouse óptico sem fio com 6 botões', 150.75, $categoriaEletronicos, true
+    102,
+    'Mouse Sem Fio',
+    'Mouse óptico sem fio com 6 botões',
+    150.75,
+    $categoriaEletronicos,
+    true
 );
 
 print_r($produtoNotebook);
@@ -101,5 +118,3 @@ echo "TOTAL DO PEDIDO: R$ " . number_format($pedido->getTotal(), 2, ',', '.') . 
 echo "===============================================\n";
 echo "TESTE CONCLUÍDO\n";
 echo "===============================================\n";
-
-?>
